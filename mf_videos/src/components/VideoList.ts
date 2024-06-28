@@ -1,5 +1,3 @@
-import axios from 'axios';
-
 class VideoList {
   private videos: any[];
 
@@ -12,9 +10,11 @@ class VideoList {
       <div class="video-list" id="video-list">
         ${this.videos.map(video => `
           <div class="video-item">
+            <img src="${video.thumbnail}" alt="${video.title}">
             <h3>${video.title}</h3>
             <p>${video.description}</p>
             <button data-video-id="${video.id}">Play</button>
+            <button data-video-id="${video.id}" class="favorite-button">Favorite</button>
           </div>
         `).join('')}
       </div>
@@ -22,20 +22,39 @@ class VideoList {
   }
 
   public async searchVideos(query: string): Promise<void> {
-    const response = await axios.get(`/api/videos?q=${query}`);
-    this.videos = response.data.items.map((item: any) => ({
-      id: item.id.videoId,
-      title: item.snippet.title,
-      description: item.snippet.description
-    }));
-    this.update();
+    try {
+      const response = await fetch(`/api/videos?q=${query}`);
+      this.videos = await response.json();
+      this.update();
+    } catch (error) {
+      console.error('Error fetching videos:', error);
+    }
   }
 
   private update(): void {
     const videoListElement = document.getElementById('video-list');
     if (videoListElement) {
       videoListElement.innerHTML = this.render();
+      this.addEventListeners();
     }
+  }
+
+  private addEventListeners(): void {
+    const playButtons = document.querySelectorAll('.video-item button[data-video-id]');
+    playButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        const videoId = button.getAttribute('data-video-id');
+        // Lógica para reproduzir vídeo
+      });
+    });
+
+    const favoriteButtons = document.querySelectorAll('.video-item .favorite-button');
+    favoriteButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        const videoId = button.getAttribute('data-video-id');
+        // Lógica para marcar como favorito
+      });
+    });
   }
 }
 

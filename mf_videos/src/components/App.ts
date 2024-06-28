@@ -17,20 +17,7 @@ class App {
         ${this.searchBar.render()}
         ${this.videoList.render()}
       `;
-    }
-    this.addEventListeners();
-  }
-
-  private addEventListeners(): void {
-    const searchButton = document.getElementById('search-button');
-    if (searchButton) {
-      searchButton.addEventListener('click', () => {
-        const searchInput = document.getElementById('search-input') as HTMLInputElement;
-        if (searchInput) {
-          const query = searchInput.value;
-          this.videoList.searchVideos(query);
-        }
-      });
+      this.searchBar.addEventListeners(this.videoList.searchVideos.bind(this.videoList));
     }
   }
 }

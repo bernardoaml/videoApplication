@@ -27,6 +27,8 @@ services:
       - ./mf_videos:/app
     environment:
       - NODE_ENV=development
+    depends_on:
+      - bff
 
   orchestrator:
     build: ./orchestrator

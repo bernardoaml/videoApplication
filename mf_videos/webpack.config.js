@@ -32,5 +32,12 @@ module.exports = {
     },
     compress: true,
     port: 8080,
+    proxy: [
+      {
+        context: ['/api'],
+        target: 'http://bff:3000',
+        changeOrigin: true,
+      },
+    ],
   },
 };
