@@ -1,15 +1,42 @@
-version: '3'
+version: '3.8'
 
 services:
   bff:
     build: ./bff
     ports:
       - "3000:3000"
+    volumes:
+      - ./bff:/app
+    environment:
+      - NODE_ENV=development
+
   mf_drawer:
     build: ./mf_drawer
     ports:
-      - "3001:3001"
+      - "8081:8081"
+    volumes:
+      - ./mf_drawer:/app
+    environment:
+      - NODE_ENV=development
+
   mf_videos:
     build: ./mf_videos
     ports:
-      - "3002:3002"
+      - "8080:8080"
+    volumes:
+      - ./mf_videos:/app
+    environment:
+      - NODE_ENV=development
+
+  orchestrator:
+    build: ./orchestrator
+    ports:
+      - "3001:3001"
+    volumes:
+      - ./orchestrator:/app
+    environment:
+      - NODE_ENV=development
+    depends_on:
+      - bff
+      - mf_drawer
+      - mf_videos

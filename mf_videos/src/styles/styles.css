@@ -1,0 +1,21 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .search-bar {
+    margin: 1em;
+  }
+  
+  .video-list {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  
+  .video-item {
+    margin: 1em;
+    border: 1px solid #ccc;
+    padding: 1em;
+  }
+  
